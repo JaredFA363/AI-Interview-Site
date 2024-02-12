@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Main Page {% endblock %}
+{% block content %}
+<p>this is the main user page</p>
+<div class="speech_to_text">
+    <h1>Q to Answer</h1>
+    <textarea id="convert_text"></textarea>
+    <button id="click_to_convert">Answer</button>
+</div>
+
+<script type="text/javascript" src="{% static 'speechconverter/speechconverter.js' %}"></script>
+{% endblock %}
