@@ -4,7 +4,14 @@
 
 {% block title %} Main Page {% endblock %}
 {% block content %}
-<p>this is the main user page</p>
+<h1>Interview Question</h1>
+    {% if random_question %}
+        <h2>{{ random_question.question }}</h2>
+    {% else %}
+        <h2>Feedback</h2>
+    {% endif %}
+
+<!--p>this is the main user page</p-->
 <!--div class="speech_to_text">
     <h1>Q to Answer</h1>
     <textarea id="convert_text"></textarea>
@@ -35,8 +42,34 @@
                 SpeechRecognition.stop();
             };
         </script>
-
         <input type="submit" value="Submit">
+
     </form>
+
+    <h1>Provide Your Response</h1>
+        <form id="response_form" method="post">
+            {% csrf_token %}
+            <textarea id="response_textarea" name="response">{{ analysis_content }}</textarea>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Your JavaScript code here -->
+        <script type="text/javascript">
+            // JavaScript code to automatically fill the textarea with analysis content
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get the analysis content from the backend and assign it to the textarea
+                var analysisContent = "{{ analysis_content|escapejs }}";
+                document.getElementById('response_textarea').value = analysisContent;
+            });
+        </script>
+
+    <h1>Reload Page</h1>
+    <button onclick="reloadPage()">Reload Page</button>
+
+    <script>
+        function reloadPage() {
+            location.reload();
+        }
+    </script>
 
 {% endblock %}

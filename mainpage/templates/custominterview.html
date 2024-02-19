@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Custom Page {% endblock %}
+{% block content %}
+<h1>Interview Question</h1>
+    {% if random_question %}
+        <h2>{{ random_question.question }}</h2>
+    {% else %}
+        <h2>Feedback</h2>
+    {% endif %}
+<!--form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="custom_skills">
+    <input id="custom_form" type="text" name="skills" placeholder="Please enter skills up tob 3" size=100 >
+    <input type="submit" value="Enter">
+    <button type ="submit"  name="action" value="Enter">Customise</buttonf>
+</form-->
+
+<form method="POST">
+    {% csrf_token %}
+    <input id="custom_form" type="text" name="skills" placeholder="Please enter a skill e.g. Communication" size=100 >
+    <input type="submit" value="Enter">
+    <br>
+    <!--input type="hidden" name="form_type" value="text_to_speech"-->
+    <input id="the_button" type="button" value="Click to Speak">
+    <input id="the_form" type="text" name="q" size=80 >
+
+    <script type="text/javascript">
+        var SpeechRecognition = new (window.SpeechRecognition || window.webkitSpeechRecognition
+        || window.mozSpeechRecognition || window.msSpeechRecognition)();
+
+        const the_button = document.getElementById("the_button");
+        the_button.addEventListener('click', function(event) {
+            SpeechRecognition.start();
+        })
+
+        SpeechRecognition.onresult = function(event){
+            var the_text = event.results[0][0].transcript;
+            document.getElementById('the_form').value = the_text;
+        };
+
+        SpeechRecognition.onend = function(){
+            SpeechRecognition.stop();
+        };
+    </script>
+    <input type="submit" value="Submit">
+
+</form>
+
+<h1>Provide Your Response</h1>
+    <form id="response_form" method="post">
+        {% csrf_token %}
+        <textarea id="response_textarea" name="response">{{ analysis_content }}</textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Your JavaScript code here -->
+    <script type="text/javascript">
+        // JavaScript code to automatically fill the textarea with analysis content
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the analysis content from the backend and assign it to the textarea
+            var analysisContent = "{{ analysis_content|escapejs }}";
+            document.getElementById('response_textarea').value = analysisContent;
+        });
+    </script>
+{% endblock %}
