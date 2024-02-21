@@ -54,7 +54,7 @@ def yourfeedback(request):
     return render(request, 'yourfeedback.html', {'user_feedback': user_feedback, 'username': username})
 
 def analyseInterviewAns(question, answer, modelAns):
-    api_key = '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' #hidden for security reasons
+    api_key = '' #hidden for security reasons
     client = OpenAI(api_key=api_key) 
     
     prompt = f"""Compare the user's answer to this model answer: {modelAns}.
