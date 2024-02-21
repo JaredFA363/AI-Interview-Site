@@ -12,19 +12,30 @@
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
+    {% if username %}
     <div class="navbar-header">
-      <a class="navbar-brand" href="">OneMoreMock</a>
+      <a class="navbar-brand" href="homepage">OneMoreMock</a>
     </div>
+    {% else %}
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">OneMoreMock</a>
+    </div>
+    {% endif %}
+    {% if username %}
     <ul class="nav navbar-nav">
-      <li><a href="user/custominterviewpage">Custom Interviews</a></li>
-      <li><a href="#">Page 2</a></li>
+      <li><a href="custominterviewpage">Custom Interviews</a></li>
+      <li><a href="yourfeedback">Feedback</a></li>
+      <li><a href="logout">LogOut</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    {% else %}
+    <ul class="nav navbar-nav navbar-right">      
       <li><a href="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
+    {% endif %}
   </div>
 </nav>
+
 {% block content %}
 <h2> this is the base</h2>
 {% endblock %}

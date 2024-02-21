@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Feedback {% endblock %}
+{% block content %}
+{% if username %}
+<h1>Feedback</h1>
+    {% if user_feedback %}
+        <ul>
+            {% for feedback in user_feedback %}
+                <li>{{ feedback.question }}</li>
+                <li>{{ feedback.feedback_text }}</li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No feedback available.</p>
+    {% endif %}
+{% else %}
+<h1>You need to login</h1>
+{% endif %}
+{% endblock %}

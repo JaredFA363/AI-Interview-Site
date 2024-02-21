@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Users
 from django.contrib import messages
-#from mainpage.views import homepage
+from django.contrib.sessions.models import Session
 
 # Create your views here.
 def home(request):
@@ -16,17 +16,14 @@ def login(request):
             user = Users.objects.get(username=username)
         except Users.DoesNotExist:
             messages.error(request, "Invalid username or password")
-            print("i")
             return redirect('login')
 
         if user.password != password:
             messages.error(request, "Invalid username or password")
-            print("u")
             return redirect('login')
 
         messages.success(request, "Login successful")
-        print("y")
-        #return redirect('home')
+        request.session['username'] = username
         return redirect('homepage')
 
     return render(request, "login.html")
@@ -39,19 +36,16 @@ def signup(request):
 
         if password != confirm_password:
             messages.error(request, "Passwords do not match")
-            print("x")
             return redirect('signup')
 
         if Users.objects.filter(username=username).exists():
             messages.error(request, "Username is already taken")
-            print("n")
             return redirect('signup')
 
         user = Users(username=username, password=password)
         user.save()
 
         messages.success(request, "Account created successfully")
-        print("b")
         return redirect('login')
 
     return render(request, "signup.html")
