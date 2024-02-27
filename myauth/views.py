@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from .models import Users
 from django.contrib import messages
 from django.contrib.sessions.models import Session
+import bcrypt
 
 # Create your views here.
 def home(request):
@@ -15,11 +16,11 @@ def login(request):
         try:
             user = Users.objects.get(username=username)
         except Users.DoesNotExist:
-            messages.error(request, "Invalid username or password")
+            messages.error(request, "Invalid username")
             return redirect('login')
 
-        if user.password != password:
-            messages.error(request, "Invalid username or password")
+        if verify_password(password, user.password)==False:
+            messages.error(request, "Invalid password")
             return redirect('login')
 
         messages.success(request, "Login successful")
@@ -42,10 +43,24 @@ def signup(request):
             messages.error(request, "Username is already taken")
             return redirect('signup')
 
-        user = Users(username=username, password=password)
+        hashed_password = hash_password(password)
+
+        user = Users(username=username, password=hashed_password)
         user.save()
 
         messages.success(request, "Account created successfully")
         return redirect('login')
 
     return render(request, "signup.html")
+
+def hash_password(password):
+    # Generate a salt and hash the password
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed_password.decode('utf-8')
+
+def verify_password(plain_password, hashed_password):
+    # Verify password
+    if bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8')):
+        return True
+    return False

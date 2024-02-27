@@ -1,38 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Login {% endblock %}
 {% block content %}
-<style>
-    .login-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-    .login-form {
-        width: 300px; /* Adjust the width as needed */
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-    .login-form input[type="text"],
-    .login-form input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-    }
-    .login-form input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-</style>
-
+<link rel="stylesheet" type="text/css" href="{% static 'loginstyle.css' %}">
 <div class="login-container">
     <div class="login-form">
         <h2 align="center">Login</h2>
