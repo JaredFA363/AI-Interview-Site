@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.contrib import messages
+from django.db import DatabaseError
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Questions, Feedback
 from openai import OpenAI
 import random
@@ -155,9 +157,16 @@ def get_random_question():
     return random_question
 
 def get_question_object(question_asked):
-    questions_object = Questions.objects.filter(question=question_asked)
-    question = random.choice(questions_object)
-    return question
+    try:
+        questions_object = Questions.objects.filter(question=question_asked)
+        question = random.choice(questions_object)
+        return question
+    except ObjectDoesNotExist:
+        print("Question Doesn't exist")
+        return None
+    except Exception as e:
+        print("Error getting question object")
+        return None
 
 def get_question_by_skill(skill):
     # Get all questions with the specified skill
@@ -174,23 +183,42 @@ def logout(request):
     return redirect('login')
 
 def save_feedback(question, feedback_text, username):
-    encrypted_feedback = encrypt_feedback(bytes(feedback_text,'utf-8'))
-    feedback = Feedback(username=username, feedback_text=encrypted_feedback, question=question)
-    feedback.save()
+    try:
+        encrypted_feedback = encrypt_feedback(bytes(feedback_text,'utf-8'))
+        feedback = Feedback(username=username, feedback_text=encrypted_feedback, question=question)
+        feedback.save()
+    except DatabaseError as db:
+        print("Error with Database")
+        pass
+    except Exception as e:
+        print("Error saving feeback")
+        pass
 
 def get_user_feedback(username):
-    user_feedback = []
-    feedbacks = Feedback.objects.filter(username=username).order_by('-date')
-    for feedback in feedbacks:
-        decrypted_feedback = decrypt_feedback(feedback.feedback_text).decode("utf-8")
-        user_feedback.append({'question': feedback.question, 'feedback_text':decrypted_feedback})
-    return user_feedback
+    try:
+        user_feedback = []
+        feedbacks = Feedback.objects.filter(username=username).order_by('-date')
+        for feedback in feedbacks:
+            decrypted_feedback = decrypt_feedback(feedback.feedback_text).decode("utf-8")
+            user_feedback.append({'question': feedback.question, 'feedback_text':decrypted_feedback})
+        return user_feedback
+    except Exception as e:
+        print("Error getting feedback" + e)
+        return []
 
 def encrypt_feedback(feedback_text):
-    encrypted_text = cipher_suite.encrypt(feedback_text)
-    return encrypted_text
+    try:
+        encrypted_text = cipher_suite.encrypt(feedback_text)
+        return encrypted_text
+    except Exception as e:
+        print("Error encrypting feedback" + e)
+        pass
 
 def decrypt_feedback(encrypted_text):
-    byte_encrypted_text = encrypted_text[2:-1].encode('utf-8')
-    decrypted_text = cipher_suite.decrypt(byte_encrypted_text)
-    return decrypted_text
+    try:
+        byte_encrypted_text = encrypted_text[2:-1].encode('utf-8')
+        decrypted_text = cipher_suite.decrypt(byte_encrypted_text)
+        return decrypted_text
+    except Exception as e:
+        print("Error decrypting feedback" + e)
+        pass
