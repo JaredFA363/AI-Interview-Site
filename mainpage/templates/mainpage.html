@@ -1,46 +1,48 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %} Main Page {% endblock %}
-
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'mainstyle.css' %}">
+<link href='https://fonts.googleapis.com/css?family=DM Sans' rel='stylesheet'>
 
 {% if username %}
-<h1>Interview Question</h1>
     {% if random_question %}
-        <h2>{{ random_question.question }}</h2>
+        <h2 class ="textstyle">{{ random_question.question }}</h2>
     {% else %}
-        <h2>Feedback</h2>
+        <h2 class ="textstyle">Feedback</h2>
     {% endif %}
 
+    <div class = "AccessToggleButton">
+        <form method="POST" action="{% url 'accessibilityMainpage' %}">
+            {% csrf_token %}
+            <button type="submit">Toggle Accessibility</button>
+        </form>
+    </div>
     <form method="POST">
         {% csrf_token %}
-        <input id="the_button" type="button" value="Click to Speak">
-        <input id="the_form" type="text" name="q" size=80 >
-        <input type="submit" value="Submit">
-
+        <input type="hidden" name="question" value="{{ random_question.question }}">
+        <textarea id="the_form" class="response_textareas" type="text" name="user_ans"></textarea>
+        <br>
+        <input id = "the_button" class="the_button" type="button" value="Answer">
+        <input class="the_button" type="submit" value="Submit">
     </form>
 
-    <h1>Provide Your Response</h1>
+    <h2 class ="textstyle">Analysis</h2>
         <form id="response_form" method="post">
             {% csrf_token %}
-            <textarea id="response_textarea" name="response">{{ analysis_content }}</textarea>
+            <input type="hidden" name="question" value="{{ random_question.question }}">
+            <textarea id="response_textarea" class="response_textareas" name="response">{{ analysis_content }}</textarea>
             <br>
-            <button type="submit" name="save_feedback">Save Feedback</button>
+            <button class="the_button" type="submit" name="save_feedback">Save</button>
         </form>
-
-        <!-- JavaScript code to automatically fill the textarea with analysis content -->
-        <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', function() {
-                var analysisContent = "{{ analysis_content|escapejs }}";
-                document.getElementById('response_textarea').value = analysisContent;
-            });
-        </script>
-
-    <h1>Reload Page</h1>
-    <button onclick="reloadPage()">Reload Page</button>
+        <form method="GET">
+            <div id="buttonCustomPosition">
+                <!--button class="the_button" onclick="reloadPage()">Next Question</button-->
+                <a href="{% url 'homepage' %}" class="the_button">Next Question</a>
+            </div>
+        </form>
 {% else %}
-    <h1>You need to login</h1>
+    <h2 class ="textstyle">You need to login</h2>
 {% endif %}
-<script type="text/javascript" src="{% static 'functionality.js' %}"></script>
+    <script type="text/javascript" src="{% static 'functionality.js' %}"></script>
 {% endblock %}

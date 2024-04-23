@@ -1,0 +1,53 @@
+body {
+    background-color: 	#cae3ea
+}
+
+.the_button{
+    background: #FFD2DD;
+    width: 150px;
+    border: none;
+    outline: none;
+    color: black;
+    height: 40px;
+    border-radius: 30px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.response_textareas{
+    position: relative;
+    background: white;
+    padding: 20px;
+    color: black;
+    border-radius: 30px;
+    margin-left: 20px;
+    font-size: 20px;
+    font-family: sans-serif;
+    list-style: none;
+    width: 97%;
+    height: 150px;
+}
+
+.textstyle{
+    font-family: 'DM Sans';
+}
+
+.custom_skill{
+    border-radius: 30px;
+    padding: 10px;
+    margin-left: 20px;
+    font-size: 13px;
+    font-family: sans-serif;
+    width: calc(100% - 200px);
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+.AccessToggleButton{
+    text-align: right;
+    padding: 5px;
+}
+
+#buttonCustomPosition{
+    text-align: right;
+}

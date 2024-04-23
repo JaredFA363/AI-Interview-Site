@@ -25,6 +25,7 @@ def login(request):
 
         messages.success(request, "Login successful")
         request.session['username'] = username
+        request.session['accessibility'] = "no"
         return redirect('homepage')
 
     return render(request, "login.html")

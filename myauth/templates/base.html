@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <title>{% block title %}OneMoreMock{% endblock %}</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     {% if username %}
-    <div class="navbar-header">
-      <a class="navbar-brand" href="homepage">OneMoreMock</a>
-    </div>
+      <a class="navbar-brand mb-0 h1" href="homepage">OneMoreMock</a>
     {% else %}
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">OneMoreMock</a>
-    </div>
+      <a class="navbar-brand mb-0 h1" href="/">OneMoreMock</a>
     {% endif %}
-    {% if username %}
-    <ul class="nav navbar-nav">
-      <li><a href="custominterviewpage">Custom Interviews</a></li>
-      <li><a href="yourfeedback">Feedback</a></li>
-      <li><a href="logout">LogOut</a></li>
-    </ul>
-    {% else %}
-    <ul class="nav navbar-nav navbar-right">      
-      <li><a href="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-    {% endif %}
-  </div>
-</nav>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-{% block content %}
-<h2> this is the base</h2>
-{% endblock %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        {% if username %}
+          <li class="nav-item active">
+            <a class="nav-link" href="custominterviewpage">Custom Interview <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="yourfeedback">Feedback <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="logout">Logout <span class="sr-only">(current)</span></a>
+          </li>
+        {% else %}
+          <li class="nav-item active">
+            <a class="nav-link" href="signup">Sign Up <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="login">Login <span class="sr-only">(current)</span></a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  {% block content %}
+  <h2>  Welcome to the OneMoreMock website!</h2>
+  <h3>Please note that we utilise AI technology to analyze feedback provided by users and generate responses accordingly. 
+    By choosing to use our website, you consent to the use of AI for the analysis of your input. 
+    This helps us improve user experience and provide tailored assistance to meet your needs effectively. 
+    Thank you for your understanding and cooperation. If you have any questions or concerns, feel free to reach out to us.</h3>
+  {% endblock %}
 </body>
 </html>

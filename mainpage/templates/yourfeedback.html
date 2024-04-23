@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-
 {% load static %}
-
 {% block title %} Feedback {% endblock %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'mainstyle.css' %}">
+<link href='https://fonts.googleapis.com/css?family=DM Sans' rel='stylesheet'>
+
 {% if username %}
-<h1>Feedback</h1>
+    <h2 class ="textstyle">Your Feedback:</h2>
     {% if user_feedback %}
         <ul>
             {% for feedback in user_feedback %}
@@ -18,6 +19,6 @@
         <p>No feedback available.</p>
     {% endif %}
 {% else %}
-<h1>You need to login</h1>
+    <h2 class ="textstyle">You need to login</h2>
 {% endif %}
 {% endblock %}
